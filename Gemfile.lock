@@ -13,6 +13,7 @@ GEM
     daemons (1.4.1)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
+    dotenv (3.1.8)
     eventmachine (1.2.7)
     faraday (1.10.0)
       faraday-em_http (~> 1.0)
@@ -105,6 +106,7 @@ PLATFORMS
 
 DEPENDENCIES
   base64
+  dotenv
   http
   octokit
   puma

@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
+require 'dotenv/load'
 require 'sinatra'
 require 'slim'
 require 'octokit'
@@ -8,6 +9,9 @@ TOKEN = ENV['GITHUB_TOKEN']
 ORG_NAME = ENV['ORGANIZATION_NAME']
 TEAM_NAME = ENV['TEAM_NAME']
 BACKGROUND_CHOICE = ENV['BACKGROUND_COLOR']
+
+set :bind, '0.0.0.0'
+set :port, 4567
 
 if BACKGROUND_CHOICE == 'green'
     background_css = "/css/background_colors/green.css"
