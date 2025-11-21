@@ -13,7 +13,11 @@ html
         img{src==avatar}
         h3 Get GitHub invite to join 
         h2 =org_name
+        - if defined?(team_name) && team_name
+          h4 Team: #{team_name}
         form action="add" method="POST"
           p{class="caption"} Enter your GitHub username
           input.input_box type="text" name="github-user"
+          - if defined?(team_name) && team_name
+            input type="hidden" name="team_name" value==team_name
           input.button type="submit" value="Add me to organization"

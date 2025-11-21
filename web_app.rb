@@ -72,9 +72,12 @@ def check_org_exists(client)
   return false
 end
 
-def get_team(client)
+def get_team(client, team_name = nil)
+  # Use provided team_name, fallback to TEAM_NAME env variable
+  target_team = team_name || TEAM_NAME
+  return nil if target_team.nil? || target_team.empty?
   teams = client.org_teams(ORG_NAME)
-  team = teams.find {|t| t.slug.downcase == TEAM_NAME.downcase }
+  team = teams.find {|t| t.slug.downcase == target_team.downcase }
   return team
 end
 
@@ -108,13 +111,21 @@ get "/" do
   slim l.render(Object.new, :avatar => avatar, :org_name => ORG_NAME, :background_css => background_css)
 end
 
+# Route with team in URL path
+get "/:team_name" do
+  team_name = params[:team_name]
+  slim l.render(Object.new, :avatar => avatar, :org_name => ORG_NAME, :background_css => background_css, :team_name => team_name)
+end
+
 post "/add" do
   username = params["github-user"]
+  team_name = params["team_name"]  # Get team from form if provided
+  
   unless user_exists?(client, username)
     return "User not found. Please check your spelling"
   end
 
-  team = get_team(client)
+  team = get_team(client, team_name)
   if team.nil?
     # team was blank or could not be found, just add user to org
     add_user_to_org(client, username)
